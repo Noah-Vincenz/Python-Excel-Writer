@@ -17,7 +17,7 @@ db = mysql.connect(
 print("Connected to:", db.get_server_info())
 
 cursor = db.cursor()
-today = datetime.today().date
+today = datetime.today().date()
 # Create Pandas Excel writer using XlsxWriter engine
 pandas_writer = pd.ExcelWriter('daten_{}.xlsx'.format(today), engine='xlsxwriter', options={'strings_to_numbers': True})
 # Create custom Writer class
@@ -35,6 +35,8 @@ for query in DIESER_MONAT_QUERIES:
     last_row = excel_writer.write(current_row, query, query_index, 'Valor', DIESER_MONAT_SHEET, DIESER_MONAT_TABLE_NAMES)
     current_row = last_row + 6
     query_index += 1
+current_row = 1
+query_index = 0
 for query in RISIKOKENNZAHLEN_VOLA_QUERIES:
     last_row = excel_writer.write_with_plot(current_row, query, query_index, 'Wert', RISIKOKENNZAHLEN_VOLA_SHEET, RISIKOKENNZAHLEN_VOLA_TABLE_NAMES)
     current_row = last_row + 6
