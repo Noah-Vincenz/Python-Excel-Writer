@@ -1,0 +1,4 @@
+python-dotenv==0.12.0
+pytest==4.6.11
+pandas==1.1.2
+mysql-connector-python==8.0.21

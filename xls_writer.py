@@ -1,40 +1,44 @@
-##############################################################################
-#
-# A simple example of converting a Pandas dataframe to an xlsx file using
-# Pandas and XlsxWriter.
-#
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
-#
-
 import pandas as pd
+import mysql.connector as mysql
+import os
+from dotenv import load_dotenv
+import kumulativ_writer, dieser_monat_writer, risikokennzahlen_vola_writer
 
-# Create a Pandas dataframe from some data.
-df1 = pd.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
-df2 = pd.DataFrame({'Data': [21, 22, 23, 24]})
+load_dotenv()
 
-# Create a Pandas Excel writer using XlsxWriter as the engine.
-writer = pd.ExcelWriter('pandas_simple.xlsx', engine='xlsxwriter')
+db = mysql.connect(
+  host=os.getenv('HOST'),
+  user=os.getenv('USERNAME'),
+  password=os.getenv('PASSWORD'),
+  database=os.getenv('DATABASE')
+)
+print("Connected to:", db.get_server_info())
 
-# Convert the dataframe to an XlsxWriter Excel object.
-df1.to_excel(writer, sheet_name='Sheet1')
-df2.to_excel(writer, sheet_name='Sheet2')
+cursor = db.cursor()
 
-# Get the xlsxwriter workbook and worksheet objects.
-workbook  = writer.book
-worksheet = writer.sheets['Sheet1']
+# Create Pandas Excel writer using XlsxWriter engine
+writer = pd.ExcelWriter('valor.xlsx', engine='xlsxwriter', options={'strings_to_numbers': True})
 
-# Apply a conditional format to the cell range.
-# Adds colouring to values
-worksheet.conditional_format('B2:B8', {'type': '3_color_scale'})
+kumulativ_writer.write(cursor, writer)
+dieser_monat_writer.write(cursor, writer)
+risikokennzahlen_vola_writer.write(cursor, writer)
 
-# Create a chart object.
-chart = workbook.add_chart({'type': 'column'})
+# # Get the xlsxwriter workbook and worksheet objects.
+# workbook  = writer.book
+# worksheet = writer.sheets['kumulativ']
 
-# Configure the series of the chart from the dataframe data.
-chart.add_series({'values': '=Sheet1!$B$2:$B$8'})
+# # Apply a conditional format to the cell range.
+# # Adds colouring to values
+# worksheet.conditional_format('C2:C3', {'type': '3_color_scale'})
 
-# Insert the chart into the worksheet.
-worksheet.insert_chart('D2', chart)
+# # Create a chart object.
+# chart = workbook.add_chart({'type': 'column'})
+
+# # Configure the series of the chart from the dataframe data.
+# chart.add_series({'values': '=kumulativ!$C$2:$C$3'})
+
+# # Insert the chart into the worksheet.
+# worksheet.insert_chart('F10', chart)
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()
