@@ -2,8 +2,8 @@
 
 ## Getting started
 
-This is a python program that retrieves data from an SQL server and places this into an excel sheet.
-This program is not Python 3 compatible, therefore, for systems running Python version 3 or higher, it is recommended
+This is a python program that retrieves data from a mySQL DB and places this data into an excel sheet.
+Note that this program is not Python 3 compatible, therefore, for systems running Python version 3 or higher, it is recommended
 to create a virtual Python 2 environment using __pyenv__.
 The project uses a virtual environment to isolate package dependencies. 
 To create the virtual environment and install required packages, run the following from a bash shell terminal:
