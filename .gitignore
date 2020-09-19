@@ -130,3 +130,5 @@ dmypy.json
 
 # Excels created via cloud drive
 *.xlsx
+
+.DS_Store
