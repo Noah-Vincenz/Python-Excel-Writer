@@ -25,3 +25,9 @@ USERNAME=... # your mysql DB username
 PASSWORD=... # your mysql DB password
 ```
 Note that *.env* has been added to the gitignore file so that these secrets will not be commited to git.
+
+Following this, you can run the application by running the following command from the root folder of the repository in your terminal:
+```bash
+$ python xls_writer.py
+```
+An excel sheet populated with the data from the DB should now have been created in the root folder of the repository.
