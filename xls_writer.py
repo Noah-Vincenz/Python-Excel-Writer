@@ -3,6 +3,9 @@ import mysql.connector as mysql
 import os
 from dotenv import load_dotenv
 import kumulativ_writer, dieser_monat_writer, risikokennzahlen_vola_writer
+from datetime import datetime
+from writer import Writer
+from utils import KUMULATIV_QUERIES, KUMULATIV_SHEET, KUMULATIV_TABLE_NAMES, DIESER_MONAT_QUERIES, DIESER_MONAT_SHEET, DIESER_MONAT_TABLE_NAMES, RISIKOKENNZAHLEN_VOLA_QUERIES, RISIKOKENNZAHLEN_VOLA_SHEET, RISIKOKENNZAHLEN_VOLA_TABLE_NAMES
 
 load_dotenv()
 
@@ -15,30 +18,28 @@ db = mysql.connect(
 print("Connected to:", db.get_server_info())
 
 cursor = db.cursor()
-
+today = datetime.today().date
 # Create Pandas Excel writer using XlsxWriter engine
-writer = pd.ExcelWriter('valor.xlsx', engine='xlsxwriter', options={'strings_to_numbers': True})
+pandas_writer = pd.ExcelWriter('daten_{}.xlsx'.format(today), engine='xlsxwriter', options={'strings_to_numbers': True})
+# Create custom Writer class
+excel_writer = Writer(cursor, pandas_writer)
 
-kumulativ_writer.write(cursor, writer)
-dieser_monat_writer.write(cursor, writer)
-risikokennzahlen_vola_writer.write(cursor, writer)
+current_row = 1
+query_index = 0
+for query in KUMULATIV_QUERIES:
+    last_row = excel_writer.write(current_row, query, query_index, 'Valor', KUMULATIV_SHEET, KUMULATIV_TABLE_NAMES)
+    current_row = last_row + 6
+    query_index += 1
+current_row = 1
+query_index = 0
+for query in DIESER_MONAT_QUERIES:
+    last_row = excel_writer.write(current_row, query, query_index, 'Valor', DIESER_MONAT_SHEET, DIESER_MONAT_TABLE_NAMES)
+    current_row = last_row + 6
+    query_index += 1
+for query in RISIKOKENNZAHLEN_VOLA_QUERIES:
+    last_row = excel_writer.write_with_plot(current_row, query, query_index, 'Wert', RISIKOKENNZAHLEN_VOLA_SHEET, RISIKOKENNZAHLEN_VOLA_TABLE_NAMES)
+    current_row = last_row + 6
+    query_index += 1
 
-# # Get the xlsxwriter workbook and worksheet objects.
-# workbook  = writer.book
-# worksheet = writer.sheets['kumulativ']
-
-# # Apply a conditional format to the cell range.
-# # Adds colouring to values
-# worksheet.conditional_format('C2:C3', {'type': '3_color_scale'})
-
-# # Create a chart object.
-# chart = workbook.add_chart({'type': 'column'})
-
-# # Configure the series of the chart from the dataframe data.
-# chart.add_series({'values': '=kumulativ!$C$2:$C$3'})
-
-# # Insert the chart into the worksheet.
-# worksheet.insert_chart('F10', chart)
-
-# Close the Pandas Excel writer and output the Excel file.
-writer.save()
+# Close the writer
+pandas_writer.save()

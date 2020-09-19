@@ -1,13 +1,35 @@
-import pandas as pd
+def query(interval):
+    return "SELECT datum, valor FROM `user_aktkurse_kurse` WHERE (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 0 year)) AND datum > '2008-12-01') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval {})) AND datum > '2008-12-01') ORDER BY datum ASC".format(interval)
 
-RISIKOKENNZAHLEN_VOLA_SHEET = 'risikokennzahlen_vola'
-
-table_names = [
-    "Abfrage Risikokennzahlen Vola CRB",
-    "Abfrage Risikokennzahlen Vola Euribor"
+KUMULATIV_QUERIES = [
+    query("1 month"),
+    query("3 month"),
+    query("6 month"),
+    query("1 year"),
+    query("2 year"),
+    query("3 year"),
+    query("5 year"),
+    query("10 year")
 ]
-
-queries = [
+KUMULATIV_SHEET = 'kumulativ'
+KUMULATIV_TABLE_NAMES = [
+    "Abfrage kumulativ 1 Monat",
+    "Abfrage kumulativ 3 Monate",
+    "Abfrage kumulativ 6 Monate",
+    "Abfrage kumulativ 1 Jahr",
+    "Abfrage kumulativ 2 Jahre",
+    "Abfrage kumulativ 3 Jahre",
+    "Abfrage kumulativ 5 Jahre",
+    "Abfrage kumulativ 10 Jahre"
+]
+DIESER_MONAT_QUERIES = [
+    "SELECT datum, valor FROM `user_aktkurse_kurse` WHERE (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 0 year)) AND datum > '2008-12-01') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 1 month)) AND datum > '2008-12-01') ORDER BY datum ASC"
+]
+DIESER_MONAT_SHEET = 'dieser_monat'
+DIESER_MONAT_TABLE_NAMES = [
+    "Abfrage dieser Monat"
+]
+RISIKOKENNZAHLEN_VOLA_QUERIES = [
 '''SELECT datum, CRB
 FROM `user_aktkurse_kurse`
 WHERE
@@ -166,46 +188,8 @@ OR
 ORDER BY datum ASC
 '''
 ]
-
-def write(cursor, writer):
-    rows = 1
-    query_index = 0
-    for query in queries:
-        cursor.execute(query)
-        data = cursor.fetchall()
-        # Create Pandas dataframe from the data
-        df = pd.DataFrame(data, columns=['Datum', 'Wert'])
-        # Convert dataframe to XlsxWriter Excel object
-        df.to_excel(writer, sheet_name=RISIKOKENNZAHLEN_VOLA_SHEET, startrow=rows)
-        worksheet = writer.sheets[RISIKOKENNZAHLEN_VOLA_SHEET]
-        # Add table title
-        worksheet.write_string(rows - 1, 0, table_names[query_index])
-        # Apply a conditional format to the cell range.
-        # Adds colouring to values
-        worksheet.conditional_format('C3:C39', {'type': '3_color_scale'})
-        # Create a chart object
-        workbook  = writer.book
-        chart = workbook.add_chart({'type': 'line'})
-        chart.set_size({'width': 900, 'height': 576})
-        chart.set_y_axis({
-            'name': 'Wert',
-            'name_font': {'size': 14, 'bold': True}
-        })
-        chart.set_x_axis({
-            'name': 'Datum',
-            'name_font': {'size': 14, 'bold': True}
-        })
-        chart.set_title({ 'name': table_names[query_index]})
-
-        # Configure the series of the chart from the dataframe data.
-        y_values = '={}!$C$3:$C$39'.format(RISIKOKENNZAHLEN_VOLA_SHEET)
-        x_values = '={}!$B$3:$B$39'.format(RISIKOKENNZAHLEN_VOLA_SHEET)
-        chart.add_series({'name': 'Wert', 'values': y_values, 'categories': x_values})
-
-        # Insert the chart into the worksheet.
-        worksheet.insert_chart('F3', chart)
-        # Adding 5 rows spacing between tables
-        rows = rows + len(data) + 7
-        # Go to next query  
-        query_index += 1
-
+RISIKOKENNZAHLEN_VOLA_SHEET = 'risikokennzahlen_vola'
+RISIKOKENNZAHLEN_VOLA_TABLE_NAMES = [
+    "Abfrage Risikokennzahlen Vola CRB",
+    "Abfrage Risikokennzahlen Vola Euribor"
+]
