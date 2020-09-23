@@ -4,7 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from datetime import datetime
 from writer import Writer
-from utils import KUMULATIV_QUERIES, KUMULATIV_SHEET, KUMULATIV_TABLE_NAMES, DIESER_MONAT_QUERIES, DIESER_MONAT_SHEET, DIESER_MONAT_TABLE_NAMES, RISIKOKENNZAHLEN_VOLA_QUERIES, RISIKOKENNZAHLEN_VOLA_SHEET, RISIKOKENNZAHLEN_VOLA_TABLE_NAMES
+from utils import KUMULATIV_QUERIES, KUMULATIV_SHEET, KUMULATIV_TABLE_NAMES, DIESER_MONAT_QUERIES, DIESER_MONAT_SHEET, DIESER_MONAT_TABLE_NAMES, RISIKOKENNZAHLEN_VOLA_QUERIES, RISIKOKENNZAHLEN_VOLA_SHEET, RISIKOKENNZAHLEN_VOLA_TABLE_NAMES, VALOR_QUERIES, VALOR_SHEET, VALOR_TABLE_NAMES, HISTORISCHE_WERTENTWICKLUNG_QUERIES, HISTORISCHE_WERTENTWICKLUNG_SHEET, HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES
 
 load_dotenv()
 
@@ -23,24 +23,15 @@ pandas_writer = pd.ExcelWriter('daten_{}.xlsx'.format(today), engine='xlsxwriter
 # Create custom Writer class
 excel_writer = Writer(cursor, pandas_writer)
 
-current_row = 1
-query_index = 0
-for query in KUMULATIV_QUERIES:
-    last_row = excel_writer.write(current_row, query, query_index, 'Valor', KUMULATIV_SHEET, KUMULATIV_TABLE_NAMES)
-    current_row = last_row + 6
-    query_index += 1
-current_row = 1
-query_index = 0
-for query in DIESER_MONAT_QUERIES:
-    last_row = excel_writer.write(current_row, query, query_index, 'Valor', DIESER_MONAT_SHEET, DIESER_MONAT_TABLE_NAMES)
-    current_row = last_row + 6
-    query_index += 1
-current_row = 1
-query_index = 0
-for query in RISIKOKENNZAHLEN_VOLA_QUERIES:
-    last_row = excel_writer.write_with_plot(current_row, query, query_index, 'Wert', RISIKOKENNZAHLEN_VOLA_SHEET, RISIKOKENNZAHLEN_VOLA_TABLE_NAMES)
-    current_row = last_row + 6
-    query_index += 1
-
+# KUMULATIV
+excel_writer.execute_queries(KUMULATIV_QUERIES, ['Datum', 'Valor'], KUMULATIV_SHEET, KUMULATIV_TABLE_NAMES)
+# DIESER MONAT
+excel_writer.execute_queries(DIESER_MONAT_QUERIES, ['Datum', 'Valor'], DIESER_MONAT_SHEET, DIESER_MONAT_TABLE_NAMES)
+# RISIKOKENNZAHLEN VOLA
+excel_writer.execute_queries_with_plot(RISIKOKENNZAHLEN_VOLA_QUERIES, ['Datum', 'Wert'], RISIKOKENNZAHLEN_VOLA_SHEET, RISIKOKENNZAHLEN_VOLA_TABLE_NAMES)
+# VALOR
+excel_writer.execute_queries_with_plot(VALOR_QUERIES, ['Datum', 'Valor'], VALOR_SHEET, VALOR_TABLE_NAMES)
+# HISTORISCHE WERTENTWICKLUNG
+excel_writer.execute_queries(HISTORISCHE_WERTENTWICKLUNG_QUERIES, ['uid', 'pid', 'tstamp', 'crdate', 'cruser_id', 'sorting', 'deleted', 'hidden', 'valor', 'crb', 'datum'], HISTORISCHE_WERTENTWICKLUNG_SHEET, HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES)
 # Close the writer
 pandas_writer.save()
