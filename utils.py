@@ -92,7 +92,7 @@ KUMULATIV_QUERIES = [
     generate_kumulativ_query("5 year"),
     generate_kumulativ_query("10 year")
 ]
-KUMULATIV_SHEET = "kumulative Eträge"
+KUMULATIV_SHEET = "kumulative Etraege"
 KUMULATIV_TABLE_NAMES = [
     "Dieser Monat",
     "1 Monat",
@@ -109,7 +109,7 @@ RISIKOKENNZAHLEN_VOLA_QUERIES = [
     generate_risikokennzahlen_vola_query("Euribor3m"),
     generate_risikokennzahlen_vola_query("Valor")
 ]
-RISIKOKENNZAHLEN_VOLA_SHEET = 'Risikokennzahlen'
+RISIKOKENNZAHLEN_VOLA_SHEET = "Risikokennzahlen"
 RISIKOKENNZAHLEN_VOLA_TABLE_NAMES = [
     "Abfrage Risikokennzahlen Vola CRB",
     "Abfrage Risikokennzahlen Vola Euribor",
