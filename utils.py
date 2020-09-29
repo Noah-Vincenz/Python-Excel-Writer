@@ -92,7 +92,7 @@ KUMULATIV_QUERIES = [
     generate_kumulativ_query("5 year"),
     generate_kumulativ_query("10 year")
 ]
-KUMULATIV_SHEET = 'kumulative Eträge'
+KUMULATIV_SHEET = "kumulative Eträge"
 KUMULATIV_TABLE_NAMES = [
     "Dieser Monat",
     "1 Monat",
@@ -118,10 +118,10 @@ RISIKOKENNZAHLEN_VOLA_TABLE_NAMES = [
 VALOR_QUERIES = [
     "SELECT datum, valor FROM `user_aktkurse_kurse` WHERE (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 0 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 1 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 2 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 3 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 4 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 5 year)) AND datum > '2008-11-15') ORDER BY datum ASC"
 ]
-VALOR_SHEET = 'Valor'
+VALOR_SHEET = "Valor"
 VALOR_TABLE_NAMES = ["Abfrage Valor"]
 HISTORISCHE_WERTENTWICKLUNG_QUERIES = [
     "SELECT user_aktkurse_kurse_0.uid, user_aktkurse_kurse_0.pid, user_aktkurse_kurse_0.tstamp, user_aktkurse_kurse_0.crdate, user_aktkurse_kurse_0.cruser_id, user_aktkurse_kurse_0.sorting, user_aktkurse_kurse_0.deleted, user_aktkurse_kurse_0.hidden,  user_aktkurse_kurse_0.valor,  user_aktkurse_kurse_0.CRB, user_aktkurse_kurse_0.datum FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0"
 ]
-HISTORISCHE_WERTENTWICKLUNG_SHEET = 'historische_wertentwicklung'
+HISTORISCHE_WERTENTWICKLUNG_SHEET = "historische_wertentwicklung"
 HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES = ["Abfrage von historische Wertentwicklung"]
