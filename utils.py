@@ -1,6 +1,7 @@
 def generate_kumulativ_query(interval):
     return "SELECT datum, valor FROM `user_aktkurse_kurse` WHERE (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 0 year)) AND datum > '2008-12-01') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval {})) AND datum > '2008-12-01') ORDER BY datum ASC".format(interval)
 
+# TODO: update this query to use similar style as for historische wertentwicklung
 def generate_risikokennzahlen_vola_query(aktie):
     return '''SELECT datum, {}
     FROM `user_aktkurse_kurse`
@@ -120,8 +121,15 @@ VALOR_QUERIES = [
 ]
 VALOR_SHEET = "valor"
 VALOR_TABLE_NAMES = ["Abfrage Valor"]
+# "SELECT user_aktkurse_kurse_0.datum as Datum, user_aktkurse_kurse_0.valor FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0"
+# "SELECT user_aktkurse_kurse_0.datum as datum, user_aktkurse_kurse_0.valor FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0 WHERE datum = LAST_DAY(datum)"
 HISTORISCHE_WERTENTWICKLUNG_QUERIES = [
-    "SELECT user_aktkurse_kurse_0.datum, user_aktkurse_kurse_0.valor FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0"
+    '''SELECT user_aktkurse_kurse_0.datum as datum, user_aktkurse_kurse_0.valor 
+    FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0
+    WHERE datum in 
+    (SELECT DISTINCT MAX(datum) FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0 GROUP BY MONTH(datum))
+    AND datum >= DATE_SUB(now(), INTERVAL 5 YEAR)
+    ORDER BY datum ASC'''
 ]
 HISTORISCHE_WERTENTWICKLUNG_SHEET = "historische_wertentwicklung"
-HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES = ["Abfrage von historische Wertentwicklung"]
+HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES = ["Abfrage von historische Wertentwicklung 5 Jahre"] # add 10 Jahre Query
