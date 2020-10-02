@@ -30,6 +30,6 @@ excel_writer.execute_queries_with_plot(RISIKOKENNZAHLEN_VOLA_QUERIES, ['Datum', 
 #VALOR
 excel_writer.execute_queries_with_plot(VALOR_QUERIES, ['Datum', 'Summe von valor'], VALOR_SHEET, VALOR_TABLE_NAMES)
 #HISTORISCHE WERTENTWICKLUNG
-excel_writer.execute_queries(HISTORISCHE_WERTENTWICKLUNG_QUERIES, ['uid', 'pid', 'tstamp', 'crdate', 'cruser_id', 'sorting', 'deleted', 'hidden', 'valor', 'crb', 'datum'], HISTORISCHE_WERTENTWICKLUNG_SHEET, HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES)
+excel_writer.execute_queries_with_plot(HISTORISCHE_WERTENTWICKLUNG_QUERIES, ['Datum', 'Valor'], HISTORISCHE_WERTENTWICKLUNG_SHEET, HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES)
 #Close the writer
 pandas_writer.save()

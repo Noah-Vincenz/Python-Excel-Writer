@@ -92,7 +92,7 @@ KUMULATIV_QUERIES = [
     generate_kumulativ_query("5 year"),
     generate_kumulativ_query("10 year")
 ]
-KUMULATIV_SHEET = "kumulative Etraege"
+KUMULATIV_SHEET = "kumulative_ertraege"
 KUMULATIV_TABLE_NAMES = [
     "Dieser Monat",
     "1 Monat",
@@ -109,7 +109,7 @@ RISIKOKENNZAHLEN_VOLA_QUERIES = [
     generate_risikokennzahlen_vola_query("Euribor3m"),
     generate_risikokennzahlen_vola_query("Valor")
 ]
-RISIKOKENNZAHLEN_VOLA_SHEET = "Risikokennzahlen"
+RISIKOKENNZAHLEN_VOLA_SHEET = "risikokennzahlen"
 RISIKOKENNZAHLEN_VOLA_TABLE_NAMES = [
     "Abfrage Risikokennzahlen Vola CRB",
     "Abfrage Risikokennzahlen Vola Euribor",
@@ -118,10 +118,10 @@ RISIKOKENNZAHLEN_VOLA_TABLE_NAMES = [
 VALOR_QUERIES = [
     "SELECT datum, valor FROM `user_aktkurse_kurse` WHERE (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 0 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 1 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 2 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 3 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 4 year)) AND datum > '2008-11-15') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 5 year)) AND datum > '2008-11-15') ORDER BY datum ASC"
 ]
-VALOR_SHEET = "Valor"
+VALOR_SHEET = "valor"
 VALOR_TABLE_NAMES = ["Abfrage Valor"]
 HISTORISCHE_WERTENTWICKLUNG_QUERIES = [
-    "SELECT user_aktkurse_kurse_0.uid, user_aktkurse_kurse_0.pid, user_aktkurse_kurse_0.tstamp, user_aktkurse_kurse_0.crdate, user_aktkurse_kurse_0.cruser_id, user_aktkurse_kurse_0.sorting, user_aktkurse_kurse_0.deleted, user_aktkurse_kurse_0.hidden,  user_aktkurse_kurse_0.valor,  user_aktkurse_kurse_0.CRB, user_aktkurse_kurse_0.datum FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0"
+    "SELECT user_aktkurse_kurse_0.datum, user_aktkurse_kurse_0.valor FROM maisondo_kurse.user_aktkurse_kurse user_aktkurse_kurse_0"
 ]
 HISTORISCHE_WERTENTWICKLUNG_SHEET = "historische_wertentwicklung"
 HISTORISCHE_WERTENTWICKLUNG_TABLE_NAMES = ["Abfrage von historische Wertentwicklung"]
