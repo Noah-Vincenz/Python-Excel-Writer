@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Excels created via cloud drive
-*.xlsx
+# cached Excels created
+~$*.xlsx
 
 .DS_Store
