@@ -1,5 +1,7 @@
 import pandas as pd
 from openpyxl.utils.dataframe import dataframe_to_rows
+from openpyxl.styles import Color, PatternFill, Font, Border
+from openpyxl.formatting.rule import ColorScaleRule
 
 class Writer:
 
@@ -32,5 +34,8 @@ class Writer:
         # Add table title
         worksheet.cell(row=first_row - 1, column=1, value=table_names[query_index])
         # Add colouring to values
-        # worksheet.conditional_format('B{}:B{}'.format(first_row, last_row), {'type': '3_color_scale'})
+        worksheet.conditional_formatting.add(
+            'B{}:B{}'.format(first_row, last_row),
+            ColorScaleRule(start_type='min', start_color=Color('AA0000'), end_type='max', end_color=Color('00AA00'))
+        )
         return last_row
