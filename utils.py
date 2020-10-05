@@ -1,84 +1,11 @@
 def generate_kumulativ_query(interval):
     return "SELECT datum, valor FROM `user_aktkurse_kurse` WHERE (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 0 year)) AND datum > '2008-12-01') OR (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval {})) AND datum > '2008-12-01') ORDER BY datum ASC".format(interval)
 
-# TODO: update this query to use similar style as for historische wertentwicklung
 def generate_risikokennzahlen_vola_query(aktie):
-    return '''SELECT datum, {}
-    FROM `user_aktkurse_kurse`
-    WHERE
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 0 year)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 1 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 2 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 3 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 4 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 5 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 6 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 7 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 8 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 9 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 10 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 11 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 12 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 13 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 14 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 15 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 16 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 17 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 18 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 19 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 20 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 21 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 22 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 23 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 24 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 25 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 26 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 27 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 28 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 29 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 30 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 31 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 32 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 33 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 34 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 35 month)) AND datum > '2008-12-01')
-    OR
-    (datum = LAST_DAY(date_sub(LAST_DAY(date_sub(now(),interval 1 month)),interval 36 month)) AND datum > '2008-12-01')
+    return '''
+    SELECT datum, {} 
+    FROM `user_aktkurse_kurse` 
+    WHERE datum = LAST_DAY(datum) AND datum > DATE_SUB(now(), INTERVAL 37 MONTH)
     ORDER BY datum ASC
     '''.format(aktie)
 
