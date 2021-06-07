@@ -10,8 +10,8 @@ load_dotenv()
 
 db = mysql.connect(
   host=os.getenv('HOST'),
-  user=os.getenv('USERNAME'),
-  password=os.getenv('PASSWORD'),
+  user=os.getenv('DB_USERNAME'),
+  password=os.getenv('DB_PASSWORD'),
   database=os.getenv('DATABASE')
 )
 cursor = db.cursor()

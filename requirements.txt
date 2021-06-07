@@ -3,4 +3,4 @@ numpy
 pandas
 mysql-connector-python
 XlsxWriter
-openpyxl==3.0.4
+openpyxl==2.4.11
